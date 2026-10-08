@@ -12,6 +12,7 @@ typedef struct {
     int     descriptor;
     size_t  size_array;
     char*   buffer;
+    double* true_buffer;
     FILE*   file;
 } FileInfo;
 

@@ -53,3 +53,30 @@ double data[12] (0064FE80) {
   [10]: 1.#QNAN (POISON)
 ! [11]: -3.14159 (CANARY)
 }
+
+===== OKAK (STACK DUMP) =====
+
+! Number of error: [#0] -> (Stack is okey! Good job my bruh :))
+
+Capacity:      10
+Real capacity: 12
+Size:          2
+
+Left stack canary: [C0FFEE] - all is good
+Right stack canary: [DADDED] - all is good
+
+* Data elements:
+double data[12] (0064FE80) {
+! [0]: -3.14159 (CANARY)
+* [1]: 830.000000
+  [2]: 1.#QNAN (POISON)
+  [3]: 1.#QNAN (POISON)
+  [4]: 1.#QNAN (POISON)
+  [5]: 1.#QNAN (POISON)
+  [6]: 1.#QNAN (POISON)
+  [7]: 1.#QNAN (POISON)
+  [8]: 1.#QNAN (POISON)
+  [9]: 1.#QNAN (POISON)
+  [10]: 1.#QNAN (POISON)
+! [11]: -3.14159 (CANARY)
+}
