@@ -14,10 +14,10 @@ enum Commands {
 };
 
 struct cpu_data {
-    stackelem_t* data;
+    stackelem_t* buffer;
     size_t       capacity;
     size_t       pc;
-    stack_t*     data_solved;
+    stack_t*     cpu_stack;
 };
 
 void RunCpu(cpu_data* cpu_data);

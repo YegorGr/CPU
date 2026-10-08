@@ -29,7 +29,7 @@ STACK_DEBUG
         return ERROR_NO_MEMORY;
 
     stk->capacity      = capacity;
-    stk->size          = 1;             // по data[0] лежит canary_detection
+    stk->size          = 1;            
     stk->real_capacity = capacity + 2;
 
     for (ssize_t i = 1; i < stk->real_capacity - 1; i++)
