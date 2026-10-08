@@ -10,14 +10,15 @@ ErrorsCode StackInit (stack_t* stk, ssize_t capacity STACK_DEBUG(, const char* f
 {
     assert(stk);
 
-#ifdef STACK_DEBUG
+STACK_DEBUG 
+(
         stk->file          = file;
         stk->name_stk      = name_stk;
         stk->name_function = name_function;
         stk->line          = line;
         stk->date          = date;
         stk->time          = time;
-#endif
+)
 
     if (capacity <= 0) 
         return NEGATIVE_CAPACITY;

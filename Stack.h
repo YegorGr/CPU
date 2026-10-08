@@ -45,7 +45,8 @@ enum ErrorsCode {
                 abort();                                  \
             }                                             \
         } while(0)                                          
-    #else                          
+    #else
+        #define STACK_DEBUG(...)         
         #define assert_ok(stk)                        
 #endif
 
