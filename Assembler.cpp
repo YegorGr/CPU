@@ -19,7 +19,7 @@ int main (int argc, const char* argv[])
 
     char executable[] = "ExecutableCode.txt";
 
-    data.file = fopen(executable, "w");
+    data.file = fopen(executable, "wb");
     if (data.file == NULL) 
     {
         fprintf(stderr, "Failed to open output file\n");
@@ -90,7 +90,7 @@ void RunAssembler (FileInfo* data)
         data->size_code = i;
     }
 
-    data->true_buffer = (double*) realloc(data->true_buffer, data->size_code);
+    data->true_buffer = (double*) realloc(data->true_buffer, data->size_code + sizeof(double));
 }
 
 double CommandToNum (char* command)
