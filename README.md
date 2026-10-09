@@ -1,7 +1,7 @@
 # Read me please
 
 ## Архитектурность проекта
-text```
+```
 CPU/
 ├── README.md
 ├── common/
