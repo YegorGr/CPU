@@ -1,6 +1,7 @@
 #include "Assembler.h"
 #include "Fileinfo.h"
 
+#include <TXLib.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -27,8 +28,13 @@ int main (int argc, const char* argv[])
 
     RunAssembler(&data);
 
-    fwrite(data.true_buffer, sizeof(double), data.size_code, data.file);
-    
+    size_t c_written = fwrite(data.true_buffer, sizeof(double), data.size_code, data.file);
+
+    if (c_written != data.size_code)
+        fprintf(stderr, "Error of write to file!");
+    else
+        printf("Success write to file!");
+
     fclose(data.file);
 
     free(data.true_buffer);
@@ -44,7 +50,7 @@ void RunAssembler (FileInfo* data)
 
     char command[MAX_LEN] = {};
     double value          = NAN;
-    double command_number = 0;
+    double command_number = 0.0;
 
 
     data->true_buffer = (double*) calloc(data->size_array, sizeof(double));
