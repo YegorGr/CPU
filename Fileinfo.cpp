@@ -19,7 +19,7 @@ int OpenAndGetName (int argc, const char** argv)
     else 
     {
         char* filename = GetFileName();
-        descriptor = OpenFile(filename);
+        descriptor     = OpenFile(filename);
         free(filename);
     }
 
@@ -93,11 +93,10 @@ size_t FileSize (int descriptor)
 
 char* CopyFromFile (int descriptor, size_t size_array)
 {
-    char* buffer = (char*) (calloc(size_array, sizeof(char)));
+    char* buffer     = (char*) (calloc(size_array, sizeof(char)));
     size_t real_size = read(descriptor, buffer, size_array);
 
-    buffer[0] = '\0';
     memset(&buffer[real_size], 0, size_array - real_size);
 
-    return buffer + 1;
+    return buffer;
 }

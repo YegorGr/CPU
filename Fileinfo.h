@@ -1,6 +1,14 @@
 #pragma once
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <assert.h>
+#include <errno.h>
 
 #define HINT    "\x1b[93m"            //!< Sand color (yellow but light yellow)
 #define SUCCESS "\x1b[38;5;46m"       //!< Bright green color (specially for success)
@@ -11,6 +19,7 @@
 typedef struct {
     int     descriptor;
     size_t  size_array;
+    size_t  size_code;
     char*   buffer;
     double* true_buffer;
     FILE*   file;
