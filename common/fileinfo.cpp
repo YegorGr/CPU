@@ -1,4 +1,4 @@
-#include "Fileinfo.h"
+#include "fileinfo.h"
 
 #include <stdio.h>
 #include <stdlib.h>

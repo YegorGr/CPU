@@ -21,7 +21,7 @@ typedef struct {
     size_t  size_array;
     size_t  size_code;
     char*   buffer;
-    double* true_buffer;
+    char*   true_buffer;
     FILE*   file;
 } FileInfo;
 

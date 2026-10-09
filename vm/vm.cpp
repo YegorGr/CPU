@@ -1,5 +1,5 @@
-#include "Stack.h"
-#include "VM.h"
+#include "stack.h"
+#include "vm.h"
 
 #include <stdio.h> 
 #include <stdlib.h>
