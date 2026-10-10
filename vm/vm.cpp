@@ -76,7 +76,7 @@ void CmdPush (cpu* cpu_data, ErrorsCode* err)
 
     if (cpu_data->pc + sizeof(double) > cpu_data->capacity)
     {
-        fprintf(stderr, "Uncorrect size of buffer! Error ti push");
+        fprintf(stderr, "Uncorrect size of buffer! Error to push");
         abort();
     }
 
@@ -88,7 +88,7 @@ void CmdPush (cpu* cpu_data, ErrorsCode* err)
 
     if (*err != IS_OK)
     {
-        fprintf(stderr, "Error of push element to stack!");
+        StackDump(cpu_data->cpu_stack, *err);
         abort();
     }
 }
@@ -96,15 +96,25 @@ void CmdPush (cpu* cpu_data, ErrorsCode* err)
 void CmdAdd (cpu* cpu_data, ErrorsCode* err)
 {
     stackelem_t value_2 = StackPop(cpu_data->cpu_stack, err);
+    if (*err != IS_OK)
+    {
+        StackDump(cpu_data->cpu_stack, *err);
+        abort();
+    }
+
     stackelem_t value_1 = StackPop(cpu_data->cpu_stack, err);
+    if (*err != IS_OK)
+    {
+        StackDump(cpu_data->cpu_stack, *err);
+        abort();
+    }
 
     stackelem_t value_3 = value_1 + value_2;
 
     *err = StackPush(cpu_data->cpu_stack, value_3);
-
     if (*err != IS_OK)
     {
-        fprintf(stderr, "Error to fold the values!");
+        StackDump(cpu_data->cpu_stack, *err);
         abort();
     }
 }
@@ -112,7 +122,18 @@ void CmdAdd (cpu* cpu_data, ErrorsCode* err)
 void CmdSub (cpu* cpu_data, ErrorsCode* err)
 {
     stackelem_t value_2 = StackPop(cpu_data->cpu_stack, err);
+    if (*err != IS_OK)
+    {
+        StackDump(cpu_data->cpu_stack, *err);
+        abort();
+    }
+
     stackelem_t value_1 = StackPop(cpu_data->cpu_stack, err);
+    if (*err != IS_OK)
+    {
+        StackDump(cpu_data->cpu_stack, *err);
+        abort();
+    }
 
     stackelem_t value_3 = value_1 - value_2;
 
@@ -120,7 +141,7 @@ void CmdSub (cpu* cpu_data, ErrorsCode* err)
 
     if (*err != IS_OK)
     {
-        fprintf(stderr, "Error to subtract the values!");
+        StackDump(cpu_data->cpu_stack, *err);
         abort();
     }
 }
@@ -128,7 +149,18 @@ void CmdSub (cpu* cpu_data, ErrorsCode* err)
 void CmdDiv (cpu* cpu_data, ErrorsCode* err)
 {
     stackelem_t value_2 = StackPop(cpu_data->cpu_stack, err);
+    if (*err != IS_OK)
+    {
+        StackDump(cpu_data->cpu_stack, *err);
+        abort();
+    }
+
     stackelem_t value_1 = StackPop(cpu_data->cpu_stack, err);
+    if (*err != IS_OK)
+    {
+        StackDump(cpu_data->cpu_stack, *err);
+        abort();
+    }
 
     stackelem_t value_3 = value_1 / value_2;
 
@@ -136,7 +168,7 @@ void CmdDiv (cpu* cpu_data, ErrorsCode* err)
 
     if (*err != IS_OK)
     {
-        fprintf(stderr, "Error to divide the values!");
+        StackDump(cpu_data->cpu_stack, *err);
         abort();
     }
 }
@@ -144,7 +176,18 @@ void CmdDiv (cpu* cpu_data, ErrorsCode* err)
 void CmdMul (cpu* cpu_data, ErrorsCode* err)
 {
     stackelem_t value_2 = StackPop(cpu_data->cpu_stack, err);
+    if (*err != IS_OK)
+    {
+        StackDump(cpu_data->cpu_stack, *err);
+        abort();
+    }
+
     stackelem_t value_1 = StackPop(cpu_data->cpu_stack, err);
+    if (*err != IS_OK)
+    {
+        StackDump(cpu_data->cpu_stack, *err);
+        abort();
+    }
 
     stackelem_t value_3 = value_1 * value_2;
 
@@ -152,7 +195,7 @@ void CmdMul (cpu* cpu_data, ErrorsCode* err)
 
     if (*err != IS_OK)
     {
-        fprintf(stderr, "Error to multiply values!");
+        StackDump(cpu_data->cpu_stack, *err);
         abort();
     }
 }
@@ -169,5 +212,3 @@ void CmdOut (cpu* cpu_data, ErrorsCode* err)
 
     printf("%lg\n", value);
 }
-
-

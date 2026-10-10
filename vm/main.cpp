@@ -5,9 +5,9 @@
 #include <stdio.h> 
 #include <stdlib.h>
 
-const char filename[] = "ExacutableCode.txt";
+const char filename[] = "ExacutableCode.txt"; // todo: седалть струтуру с информацией о файле, errm, version 1, кол-во команд
 
-int main(int argc, const char* argv[])
+int main (int argc, const char* argv[])
 {
     FileInfo data = GetFileInfo(argc, argv);   
 
