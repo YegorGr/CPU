@@ -96,6 +96,19 @@ stackelem_t StackPop (stack_t* stk, ErrorsCode* err)
     return value;
 }
 
+stackelem_t StackTop (stack_t* stk, ErrorsCode* err)
+{
+    assert_ok(stk);
+
+    if (stk->size <= 1)
+    {
+        *err = STACK_UNDERFLOW;
+        return POISON;
+    }
+
+    return stk->data[stk->size - 1];
+}
+
 ErrorsCode ResizeUp (stack_t* stk)
 {
     assert_ok(stk);

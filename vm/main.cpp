@@ -1,27 +1,29 @@
-#include "Stack.h"
-#include "VM.h"
+#include "stack.h"
+#include "vm.h"
+#include "fileinfo.h"
 
 #include <stdio.h> 
 #include <stdlib.h>
 
-int main()
+const char filename[] = "ExacutableCode.txt";
+
+int main(int argc, const char* argv[])
 {
-    double data[] = {1, 30.000, 1, 800, 2, 6, 0};
-    size_t code_size = sizeof(data) / sizeof(data[0]);
+    FileInfo data = GetFileInfo(argc, argv);   
 
-    stack_t cpu_stack = {};
-    StackInit(&cpu_stack, 40);
+    stack_t stk1 = {};
+    StackInit(&stk1, 40);
+    
+    cpu cpu_data = {};
 
-    cpu_data cpu = {};
+    cpu_data.capacity    = data.real_size;
+    cpu_data.buffer      = data.buffer;
+    cpu_data.pc          = 0;
+    cpu_data.cpu_stack   = &stk1;
 
-    cpu.capacity    = code_size;
-    cpu.buffer      = data;
-    cpu.pc          = 0;
-    cpu.cpu_stack   = &cpu_stack;
+    RunVm(&cpu_data);
 
-    RunCpu(&cpu);
-
-    StackDestroy(&cpu_stack);
+    StackDestroy(cpu_data.cpu_stack);
 
     getchar();
 }

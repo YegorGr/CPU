@@ -76,6 +76,7 @@ ErrorsCode  StackInit   (stack_t* stk, ssize_t capacity
                          const char* name_function, int line, const char* date, const char* time));
 ErrorsCode  StackPush   (stack_t* stk, stackelem_t value);
 stackelem_t StackPop    (stack_t* stk, ErrorsCode* err);
+stackelem_t StackTop    (stack_t* stk, ErrorsCode* err);
 ErrorsCode  StackOk     (stack_t* stk);
 
 void        StackDump   (stack_t* stk, ErrorsCode err);

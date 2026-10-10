@@ -32,7 +32,7 @@ FileInfo GetFileInfo (int argc, const char** argv)
 
     data.descriptor = OpenAndGetName (argc, argv);
     data.size_array = FileSize       (data.descriptor);
-    data.buffer     = CopyFromFile   (data.descriptor, data.size_array);
+    data.buffer     = CopyFromFile   (data.descriptor, data.size_array, &data);
 
     close(data.descriptor);
 
@@ -91,12 +91,12 @@ size_t FileSize (int descriptor)
     return size_array;
 }
 
-char* CopyFromFile (int descriptor, size_t size_array)
+char* CopyFromFile (int descriptor, size_t size_array, FileInfo* data)
 {
     char* buffer     = (char*) (calloc(size_array, sizeof(char)));
-    size_t real_size = read(descriptor, buffer, size_array);
+    data->real_size = read(descriptor, buffer, size_array);
 
-    memset(&buffer[real_size], 0, size_array - real_size);
+    memset(&buffer[data->real_size], 0, size_array - data->real_size);
 
     return buffer;
 }

@@ -20,6 +20,7 @@ typedef struct {
     int     descriptor;
     size_t  size_array;
     size_t  size_code;
+    size_t  real_size;
     char*   buffer;
     char*   true_buffer;
     FILE*   file;
@@ -31,4 +32,4 @@ FileInfo GetFileInfo     (int argc, const char** argv);
 char*    GetFileName     (void);
 int      OpenFile        (const char* filename);
 size_t   FileSize        (int descriptor);
-char*    CopyFromFile    (int descriptor, size_t size_array);
+char*    CopyFromFile    (int descriptor, size_t size_array, FileInfo* data);
