@@ -1,5 +1,6 @@
 #include "assembler.h"
 #include "fileinfo.h"
+#include "commands.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -63,25 +64,25 @@ void RunAssembler (FileInfo* data)
 char CommandToNum (char* command)
 {
     if (strcasecmp("HLT", command) == 0)
-        return 0;
+        return HLT;
     
     if (strcasecmp("PUSH", command) == 0)
-        return 1;
+        return PUSH;
 
     if (strcasecmp("ADD", command) == 0)
-        return 2;
+        return ADD;
     
     if (strcasecmp("SUB", command) == 0)
-        return 3;
+        return SUB;
     
     if (strcasecmp("DIV", command) == 0)
-        return 4;
+        return DIV;
     
     if (strcasecmp("MUL", command) == 0)
-        return 5;
+        return MUL;
 
     if (strcasecmp("OUT", command) == 0)
-        return 6;
+        return OUT;
 
     fprintf(stderr, "Incorrect command!");
     abort();
