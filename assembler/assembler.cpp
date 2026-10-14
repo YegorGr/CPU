@@ -13,7 +13,7 @@
 #include <errno.h>
 #include <math.h>
 
-void RunAssembler (FileInfo* data)
+int RunAssembler (FileInfo* data)
 {
     assert(data != NULL);
     assert(data->buffer != NULL);
@@ -27,63 +27,72 @@ void RunAssembler (FileInfo* data)
     }
 
     char* ptr          = data->buffer;
-    ssize_t byte_count = 0;
-    bool is_running    = true;
+    size_t byte_count  = 0;
 
-    while (is_running == true)
+    while (ptr != NULL && *ptr != '\0')
     {
-        char command[MAX_LEN] = {};
-        double value          = NAN;
+        char* end_str = strchr(ptr, '\n');
 
-        int argcscan = sscanf(ptr, "%s %lf", command, &value);
-
-        if (argcscan <= 0)
+        if (end_str != NULL)
+            *end_str = '\0';
+        
+        if (AssembleLine(ptr, data->true_buffer, &byte_count) != 0)
+            return -1;
+        
+        if (end_str == NULL)
             break;
 
-        data->true_buffer[byte_count] = CommandToNum(command); // why bite_count++???
-        byte_count++;
-
-        if (argcscan == 2)
-        {
-            memcpy(&data->true_buffer[byte_count], &value, sizeof(double));
-            byte_count += sizeof(double);
-        }
-
-        char* next = strchr(ptr, '\n');
-
-        if (next != NULL)
-            ptr = next + 1;
-        else
-            is_running = false;
+        ptr = end_str + 1;
     }
 
     data->size_code   = byte_count;
     data->true_buffer = (char*) realloc(data->true_buffer, data->size_code);
+
+    return 0;
 }
 
-char CommandToNum (char* command)
+int AssembleLine (char* line, char* out, size_t* byte_count)
 {
-    if (strcasecmp("HLT", command) == 0)
-        return HLT;
-    
-    if (strcasecmp("PUSH", command) == 0)
-        return PUSH;
+    char* comment = strchr(line, ';');
+    if (comment != NULL)
+        *comment = '\0';
 
-    if (strcasecmp("ADD", command) == 0)
-        return ADD;
-    
-    if (strcasecmp("SUB", command) == 0)
-        return SUB;
-    
-    if (strcasecmp("DIV", command) == 0)
-        return DIV;
-    
-    if (strcasecmp("MUL", command) == 0)
-        return MUL;
+    char word   [MAX_LEN] = {};
+    double value          = 0;
 
-    if (strcasecmp("OUT", command) == 0)
-        return OUT;
+    int argsscan = sscanf(line, "%s %lf", word, &value);
 
-    fprintf(stderr, "Incorrect command!");
-    abort();
+    if (argsscan <= 0)
+        return 0;
+    
+    const CommandInfo* info = CommandToNum(word);
+
+    if (info == NULL)
+    {
+        fprintf(stderr, "Unknown command [%s]\n", word);
+        return -1;
+    }
+
+    if ((info->arg == ARG_NUMBER || info->arg == ARG_REG || info->arg == ARG_MARK) && argsscan != 2)
+    {
+        fprintf(stderr, "There are to few or many arguments or the second argument is not a nubmer");
+        return -1;
+    }
+
+    if (info->arg == ARG_NONE && argsscan != 1)
+    {
+        fprintf(stderr, "The command [%s] needs no arguments!", info->name);
+        return -1;
+    }
+
+    out[*(byte_count)] = (char) info->number;
+    (*byte_count)++;
+
+    if (info->arg == ARG_NUMBER)
+    {
+        memcpy(&out[*byte_count], &value, sizeof(double));
+        *byte_count += sizeof(double);
+    }
+    
+    return 0;
 }

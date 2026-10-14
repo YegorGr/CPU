@@ -17,7 +17,7 @@ int main (int argc, const char* argv[])
 {
     FileInfo data = GetFileInfo(argc, argv);   
 
-    char executable[] = "ExecutableCode.txt";
+    char executable[] = "ex_code.bin";
 
     data.file = fopen(executable, "wb");
     if (data.file == NULL) 

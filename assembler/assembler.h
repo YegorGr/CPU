@@ -2,7 +2,7 @@
 
 #include "fileinfo.h"
 
-const int MAX_LEN = 256;
+const int MAX_LEN = 5;
 
-void RunAssembler (FileInfo* data);
-char CommandToNum (char* command);
+int RunAssembler (FileInfo* data);
+int AssembleLine (char* line, char* out, size_t* byte_count);
