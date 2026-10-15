@@ -14,7 +14,7 @@ const CommandInfo COMMANDS_TABLE[] = {
     {"POPR",  POPR,  ARG_REG   },
 };
 
-const char* REGISTER_TABLE[REGS_COUNT] = {"AX", "BX", "CX", "DX"}; // connect with enum, else crush !
+const char* REGISTER_TABLE[REGS_COUNT] = {"AX", "BX", "CX", "DDX"}; // connect with enum, else crush !
 
 #define COMMANDS_COUNT (sizeof(COMMANDS_TABLE) / sizeof(COMMANDS_TABLE[0]))
 

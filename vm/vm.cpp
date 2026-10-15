@@ -57,6 +57,14 @@ void RunVm (cpu* cpu_data)
             CmdOut(cpu_data, &err);
             break;
 
+        case PUSHR:
+            CmdPushReg(cpu_data, &err);
+            break;
+
+        case POPR:
+            CmdPopReg(cpu_data, &err);
+            break;
+
         default:
             fprintf(stderr, "Incorrect command!");
             StackDump(cpu_data->cpu_stack, err);
@@ -202,7 +210,7 @@ void CmdMul (cpu* cpu_data, ErrorsCode* err)
 
 void CmdOut (cpu* cpu_data, ErrorsCode* err)
 {
-    double value = StackTop(cpu_data->cpu_stack, err);
+    double value = StackPop(cpu_data->cpu_stack, err);
 
     if (*err != IS_OK)
     {
@@ -211,4 +219,53 @@ void CmdOut (cpu* cpu_data, ErrorsCode* err)
     }
 
     printf("%lg\n", value);
+}
+
+void CmdPushReg (cpu* cpu_data, ErrorsCode* err)
+{
+    int reg = ReadCorrectReg(cpu_data);
+
+    *err = StackPush(cpu_data->cpu_stack, cpu_data->regs[reg]);
+
+    if (*err != IS_OK)
+    {
+        StackDump(cpu_data->cpu_stack, *err);
+        abort();
+    }
+}
+
+void CmdPopReg (cpu* cpu_data, ErrorsCode* err)
+{
+    int reg = ReadCorrectReg(cpu_data);
+
+    stackelem_t value = StackPop(cpu_data->cpu_stack, err);
+
+    if (*err != IS_OK)
+    {
+        StackDump(cpu_data->cpu_stack, *err);
+        abort();
+    }
+
+    cpu_data->regs[reg] = value;
+
+}
+
+int ReadCorrectReg (cpu* cpu_data)
+{
+    if (cpu_data->pc + 1 > cpu_data->capacity)
+    {
+        fprintf(stderr, "Array out!");
+        abort();
+    }
+
+    int reg = (char) cpu_data->buffer[cpu_data->pc];
+    cpu_data->buffer++;
+
+    if (reg >= REGS_COUNT)
+    {
+        fprintf(stderr, "Unccorect register: [%d] -> there are only [%d]\n", reg, REGS_COUNT);
+        abort();
+    }
+    
+    return reg;
 }

@@ -23,7 +23,7 @@ enum Registers {
     REG_AX,
     REG_BX,
     REG_CX,
-    REG_DX,
+    REG_DDX,
 
     REGS_COUNT,    
 };

@@ -1,9 +1,7 @@
 PUSH 5
 POPR AX
-PUSHR AX BX
+PUSHR AX
 pushr ax
 MUL
 OUT
-PUSH 7
-POPR dx
 HLT
