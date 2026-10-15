@@ -29,15 +29,18 @@ int RunAssembler (FileInfo* data)
     char* ptr          = data->buffer;
     size_t byte_count  = 0;
 
-    while (ptr != NULL && *ptr != '\0')
+    while (*ptr != '\0')
     {
         char* end_str = strchr(ptr, '\n');
 
         if (end_str != NULL)
             *end_str = '\0';
         
-        if (AssembleLine(ptr, data->true_buffer, &byte_count) != 0)
-            return -1;
+        if (*ptr != '\0')
+        {
+            if (AssemblerLine(ptr, data->true_buffer, &byte_count) != 0)
+                return -1;
+        }
         
         if (end_str == NULL)
             break;
@@ -51,31 +54,31 @@ int RunAssembler (FileInfo* data)
     return 0;
 }
 
-int AssembleLine (char* line, char* out, size_t* byte_count)
+int AssemblerLine (char* line, char* out, size_t* byte_count)
 {
     char* comment = strchr(line, ';');
     if (comment != NULL)
         *comment = '\0';
 
-    char word   [MAX_LEN] = {};
-    double value          = 0;
+    char command  [MAX_LEN] = {};
+    char argument [MAX_LEN] = {};
 
-    int argsscan = sscanf(line, "%s %lf", word, &value);
+    int argsscan = sscanf(line, "%255s %255s", command, argument);
 
     if (argsscan <= 0)
         return 0;
     
-    const CommandInfo* info = CommandToNum(word);
+    const CommandInfo* info = CommandToNum(command);
 
     if (info == NULL)
     {
-        fprintf(stderr, "Unknown command [%s]\n", word);
+        fprintf(stderr, "Unknown command [%s]\n", command);
         return -1;
     }
 
     if ((info->arg == ARG_NUMBER || info->arg == ARG_REG || info->arg == ARG_MARK) && argsscan != 2)
     {
-        fprintf(stderr, "There are to few or many arguments or the second argument is not a nubmer");
+        fprintf(stderr, "There are to few or many arguments or the second argument is not correct!");
         return -1;
     }
 
@@ -85,13 +88,30 @@ int AssembleLine (char* line, char* out, size_t* byte_count)
         return -1;
     }
 
-    out[*(byte_count)] = (char) info->number;
+    out[*(byte_count)] = (char) info->code;
     (*byte_count)++;
 
     if (info->arg == ARG_NUMBER)
     {
+        double value = NAN;
+        sscanf(argument, "%lf", &value);
+
         memcpy(&out[*byte_count], &value, sizeof(double));
         *byte_count += sizeof(double);
+    }
+
+    if (info->arg == ARG_REG)
+    {
+        char reg = (char) RegisterToNum(argument);
+
+        if (reg < 0 || reg >= REGS_COUNT)
+        {
+            fprintf(stderr, "Unknown register!");
+            abort();
+        }
+
+        out[(*byte_count)] = reg; 
+        (*byte_count)++;
     }
     
     return 0;
