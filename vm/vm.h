@@ -2,7 +2,11 @@
 
 #include "stack.h"
 #include "commands.h"
+#include "fileinfo.h"
 #include <stddef.h>
+
+#define SIGNATURE "DDX1"
+#define SIGNATURESIZE 4
 
 struct cpu {
     char*    buffer;
@@ -25,4 +29,6 @@ void CmdOut  (cpu* cpu_data, ErrorsCode* err);
 void CmdPushReg (cpu* cpu_data, ErrorsCode* err);
 void CmdPopReg  (cpu* cpu_data, ErrorsCode* err);
 
-int ReadCorrectReg (cpu* cpu_data);
+int  ReadCorrectReg (cpu* cpu_data);
+void CheckHeader    (FileInfo* data);
+

@@ -24,6 +24,8 @@ typedef struct {
     char*   buffer;
     char*   true_buffer;
     FILE*   file;
+    char*   LabelsPtr;
+    int     index;
 } FileInfo;
 
 int      OpenAndGetName  (int argc, const char** argv);

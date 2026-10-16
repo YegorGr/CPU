@@ -259,7 +259,7 @@ int ReadCorrectReg (cpu* cpu_data)
     }
 
     int reg = (char) cpu_data->buffer[cpu_data->pc];
-    cpu_data->buffer++;
+    cpu_data->pc++;
 
     if (reg >= REGS_COUNT)
     {
@@ -268,4 +268,19 @@ int ReadCorrectReg (cpu* cpu_data)
     }
     
     return reg;
+}
+
+void CheckHeader (FileInfo* data)
+{
+    if (data->real_size < SIGNATURESIZE)
+    {
+        fprintf(stderr, "File is too short: %d bytes, header needs %d\n", data->size_array, SIGNATURESIZE);
+        abort(); // to do: return 
+    }
+
+    if (memcmp(data->buffer, SIGNATURE, SIGNATURESIZE) != 0)
+    {
+        fprintf(stderr, "Uncorrect signature");
+        abort();
+    }
 }

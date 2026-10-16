@@ -2,6 +2,8 @@ PUSH 5
 POPR AX
 PUSHR AX
 pushr ax
+:3
 MUL
 OUT
+JMP 3
 HLT

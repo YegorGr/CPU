@@ -1,6 +1,7 @@
-#include "commands.h"
 #include <stdio.h>
 #include <string.h>
+
+#include "commands.h"
 
 const CommandInfo COMMANDS_TABLE[] = {
     {"HLT",   HLT,   ARG_NONE  },
@@ -12,6 +13,7 @@ const CommandInfo COMMANDS_TABLE[] = {
     {"OUT",   OUT,   ARG_NONE  },
     {"PUSHR", PUSHR, ARG_REG   },
     {"POPR",  POPR,  ARG_REG   },
+    {"JMP",   JMP,   ARG_MARK  },
 };
 
 const char* REGISTER_TABLE[REGS_COUNT] = {"AX", "BX", "CX", "DDX"}; // connect with enum, else crush !

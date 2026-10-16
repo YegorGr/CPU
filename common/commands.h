@@ -10,6 +10,7 @@ enum Commands {
     OUT   = 6,
     PUSHR = 7,
     POPR  = 8, 
+    JMP   = 9,
 };
 
 enum ArgType {

@@ -1,6 +1,3 @@
-#include "assembler.h"
-#include "fileinfo.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -12,12 +9,18 @@
 #include <errno.h>
 #include <math.h>
 
+#include "assembler.h"
+#include "fileinfo.h"
+
+char Labels [MAX_MARKS] = {};
 
 int main (int argc, const char* argv[])
 {
     FileInfo data = GetFileInfo(argc, argv);   
 
     char executable[] = "ex_code.bin";
+
+    data.LabelsPtr = Labels;
 
     data.file = fopen(executable, "wb");
     if (data.file == NULL) 
