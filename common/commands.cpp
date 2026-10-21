@@ -25,6 +25,7 @@ const CommandInfo COMMANDS_TABLE[] = {
     {"CALL",  CALL,  ARG_MARK  },
     {"RET",   RET,   ARG_NONE  },
     {"IN",    IN,    ARG_NONE  },
+    {"SQRT",  SQRT,  ARG_NONE  },
 };
 
 const char* REGISTER_TABLE[REGS_COUNT] = {"AX", "BX", "CX", "DDX"}; // connect with enum, else crush !

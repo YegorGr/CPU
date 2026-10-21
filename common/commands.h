@@ -23,6 +23,7 @@ enum Commands {
     CALL  = 16,
     RET   = 17,
     IN    = 18,
+    SQRT  = 19,
 };
 
 enum ArgType {

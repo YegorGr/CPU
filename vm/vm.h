@@ -25,6 +25,8 @@ int  CmdSub  (cpu* cpu_data, ErrorsCode* err);
 int  CmdDiv  (cpu* cpu_data, ErrorsCode* err);
 int  CmdMul  (cpu* cpu_data, ErrorsCode* err);
 int  CmdOut  (cpu* cpu_data, ErrorsCode* err);
+int  CmdSqrt (cpu* cpu_data, ErrorsCode* err);
+
 
 int  CmdPushReg (cpu* cpu_data, ErrorsCode* err);
 int  CmdPopReg  (cpu* cpu_data, ErrorsCode* err);

@@ -141956,3 +141956,22 @@ double data[4] (0061FECC) {
   [2]: 1.#QNAN (POISON)
 ! [3]: -3.14159 (CANARY)
 }
+
+===== OKAK (STACK DUMP) =====
+
+! Number of error: [#8] -> (Attempt to remove an element from an empty stack)
+
+Capacity:      2
+Real capacity: 4
+Size:          1
+
+Left stack canary: [C0FFEE] - all is good
+Right stack canary: [DADDED] - all is good
+
+* Data elements:
+double data[4] (0061FECC) {
+! [0]: -3.14159 (CANARY)
+  [1]: 1.#QNAN (POISON)
+  [2]: 1.#QNAN (POISON)
+! [3]: -3.14159 (CANARY)
+}

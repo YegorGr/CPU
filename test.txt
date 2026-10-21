@@ -1,9 +1,129 @@
-PUSH 5
-POPR AX
+IN
+POPR AX             ; a
+IN
+POPR BX             ; b
+IN
+POPR CX             ; c
+ 
 PUSHR AX
-pushr ax
-metka:
+PUSH 0
+JE linear           ; a == 0 -> линейное уравнение
+ 
+; D = b*b - 4*a*c
+PUSHR BX
+PUSHR BX
+
 MUL
+PUSH 4
+PUSHR AX
+MUL
+PUSHR CX
+MUL
+SUB
+POPR CX             ; CX = D (c дальше не нужно)
+ 
+PUSHR CX
+PUSH 0
+JB no_roots         ; D < 0
+ 
+PUSHR CX
+PUSH 0
+JE one_root         ; D == 0
+ 
+; D > 0: sqrt(D) методом Ньютона
+PUSHR AX
+PUSHR BX            ; прячем a и b в стек, AX и BX свободны
+ 
+PUSHR CX
+PUSH 1
+ADD
+POPR DDX            ; x = D + 1 (заведомо не меньше sqrt(D))
+ 
+sqrt_loop:
+PUSHR DDX
+POPR AX             ; AX = старое x
+PUSHR AX
+PUSHR CX
+PUSHR AX
+DIV                 ; D / x
+ADD                 ; x + D / x
+PUSH 2
+DIV
+POPR DDX            ; DDX = новое x
+PUSHR DDX
+PUSHR AX
+JB sqrt_loop        ; пока x убывает
+ 
+POPR BX             ; достаём b
+POPR AX             ; достаём a
+ 
+PUSH 2
+OUT                 ; два корня
+ 
+PUSH 0
+PUSHR BX
+SUB                 ; -b
+PUSHR DDX
+ADD                 ; -b + sqrt(D)
+PUSH 2
+PUSHR AX
+MUL                 ; 2a
+DIV
 OUT
-JMP metka
+ 
+PUSH 0
+PUSHR BX
+SUB                 ; -b
+PUSHR DDX
+SUB                 ; -b - sqrt(D)
+PUSH 2
+PUSHR AX
+MUL
+DIV
+OUT
+HLT
+ 
+one_root:
+PUSH 1
+OUT
+PUSH 0
+PUSHR BX
+SUB                 ; -b
+PUSH 2
+PUSHR AX
+MUL                 ; 2a
+DIV
+OUT
+HLT
+ 
+no_roots:
+PUSH 0
+OUT
+HLT
+ 
+linear:
+PUSHR BX
+PUSH 0
+JE degenerate       ; b == 0
+PUSH 1
+OUT
+PUSH 0
+PUSHR CX
+SUB                 ; -c
+PUSHR BX
+DIV                 ; -c / b
+OUT
+HLT
+ 
+degenerate:
+PUSHR CX
+PUSH 0
+JE any_number       ; 0 = c
+PUSH 0
+OUT                 ; c != 0: корней нет
+HLT
+ 
+any_number:
+PUSH 888
+OUT                 ; бесконечно много корней
 HLT

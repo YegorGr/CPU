@@ -54,6 +54,10 @@ int RunVm (cpu* cpu_data)
             CmdMul(cpu_data, &err);
             break;
 
+        case SQRT:
+            CmdSqrt(cpu_data, &err);
+            break;
+
         case OUT:
             CmdOut(cpu_data, &err);
             break;
@@ -100,30 +104,38 @@ int RunVm (cpu* cpu_data)
             break;
         }
 
-    case IN:
-    {
-        double value = NAN;
-        if (scanf("%lf", &value) != 1)
+        case IN:
         {
-            fprintf(stderr, "IN: bad input\n");
-            return -1;
-        }
+            double value = NAN;
+            if (scanf("%lf", &value) != 1)
+            {
+                fprintf(stderr, "IN: bad input\n");
+                return -1;
+            }
 
-        err = StackPush(cpu_data->cpu_stack, value);
-        if (err != IS_OK) 
-        {
-            StackDump(cpu_data->cpu_stack, err); 
-            return -1; 
+            err = StackPush(cpu_data->cpu_stack, value);
+            if (err != IS_OK) 
+            {
+                StackDump(cpu_data->cpu_stack, err); 
+                return -1; 
+            }
+            break;
         }
-        break;
-    }
 
         default:
+        {
             fprintf(stderr, "Incorrect command!");
             StackDump(cpu_data->cpu_stack, err);
             abort();
         }
+        }
+
+        if (is_run == false || err != IS_OK)
+            return -1;
+
     }
+
+    return 0;
 }
 
 void CmdHlt (bool* is_run)
@@ -318,8 +330,6 @@ int CmdPopReg (cpu* cpu_data, ErrorsCode* err)
     return 0;
 }
 
-
-
 int ReadCorrectReg (cpu* cpu_data)
 {
     if (cpu_data->pc + 1 > cpu_data->capacity)
@@ -395,3 +405,24 @@ int JumpCondition (Commands cmd, double a, double b)
     }
 }
 
+int CmdSqrt (cpu* cpu_data, ErrorsCode* err)
+{
+    stackelem_t value = StackPop(cpu_data->cpu_stack, err);
+    if (*err != IS_OK)
+    {
+        StackDump(cpu_data->cpu_stack, *err);
+        return -1;
+    }
+
+    value = sqrt(value);
+
+    *err = StackPush(cpu_data->cpu_stack, value);
+
+    if (*err != IS_OK)
+    {
+        StackDump(cpu_data->cpu_stack, *err);
+        return -1;
+    }
+
+    return 0;   
+}
