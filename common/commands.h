@@ -1,5 +1,8 @@
 #pragma once
 
+#define SIGNATURE "DDX1"
+#define SIGNATURESIZE 4
+
 enum Commands {
     HLT   = 0,
     PUSH  = 1,
@@ -11,6 +14,15 @@ enum Commands {
     PUSHR = 7,
     POPR  = 8, 
     JMP   = 9,
+    JA    = 10,
+    JEA   = 11, 
+    JB    = 12,
+    JEB   = 13,
+    JE    = 14,
+    JNE   = 15,
+    CALL  = 16,
+    RET   = 17,
+    IN    = 18,
 };
 
 enum ArgType {

@@ -12,7 +12,7 @@
 #include "assembler.h"
 #include "fileinfo.h"
 
-char Labels [MAX_MARKS] = {};
+Label Labels[MAX_MARKS] = {};
 
 int main (int argc, const char* argv[])
 {
@@ -22,14 +22,24 @@ int main (int argc, const char* argv[])
 
     data.LabelsPtr = Labels;
 
-    data.file = fopen(executable, "wb");
-    if (data.file == NULL) 
+    if (RunLabels(&data) != 0 || RunAssembler(&data) != 0)
     {
-        fprintf(stderr, "Failed to open output file\n");
+        fprintf(stderr, "Assembling failed\n");
+        free(data.true_buffer);
+        free(data.buffer);
+        
         return 1;
     }
 
-    RunAssembler(&data);
+    data.file = fopen(executable, "wb");
+    if (data.file == NULL)
+    {
+        fprintf(stderr, "Failed to open output file\n");
+        free(data.true_buffer);
+        free(data.buffer);
+
+        return 1;
+    }
 
     size_t c_written = fwrite(data.true_buffer, sizeof(char), data.size_code, data.file);
 

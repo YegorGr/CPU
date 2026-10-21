@@ -68,7 +68,7 @@ char* GetFileName(void)
 
 int OpenFile (const char* filename) 
 {
-    int descriptor = open(filename, _O_RDONLY);
+    int descriptor = open(filename, O_RDONLY);
 
     if (descriptor == -1)
     {

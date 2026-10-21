@@ -2,8 +2,8 @@ PUSH 5
 POPR AX
 PUSHR AX
 pushr ax
-:3
+metka:
 MUL
 OUT
-JMP 3
+JMP metka
 HLT

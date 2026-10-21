@@ -23,31 +23,27 @@ int RunAssembler (FileInfo* data)
     if (data->true_buffer == NULL)
     {
         fprintf(stderr, "Memory allocation failed for true_buffer!\n");
-        abort();
+        return -1;
     }
 
     char* ptr          = data->buffer;
+    char* end          = data->buffer + data->real_size;
     size_t byte_count  = 0;
     
     AddVersionToFile (data, &byte_count);
 
-    while (*ptr != '\0')
+    while (ptr < end)
     {
-        char* end_str = strchr(ptr, '\n');
-
-        if (end_str != NULL)
-            *end_str = '\0';
-        
-        if (*ptr != '\0')
+        if (*ptr == '\0')
         {
-            if (AssemblerLine(data, ptr, data->true_buffer, &byte_count) != 0)
-                return -1;
+            ptr++;
+            continue;
         }
         
-        if (end_str == NULL)
-            break;
+        if (AssemblerLine(data, ptr, data->true_buffer, &byte_count) != 0)
+            return -1;
 
-        ptr = end_str + 1;
+        ptr += strlen(ptr) + 1; 
     }
 
     data->size_code   = byte_count;
@@ -58,18 +54,10 @@ int RunAssembler (FileInfo* data)
 
 int AssemblerLine (FileInfo* data, char* line, char* out, size_t* byte_count)
 {
-    char* comment = strchr(line, ';');
-    if (comment != NULL)
-        *comment = '\0';
-
-    char* label = strchr(line, ':');
-    if (label != NULL)
-        *label = '\0';
-
     char command  [MAX_LEN] = {};
     char argument [MAX_LEN] = {};
 
-    int argsscan = sscanf(line, "%255s %255s", command, argument);
+    int argsscan = sscanf(line, "%63s %63s", command, argument);
 
     if (argsscan <= 0)
         return 0;
@@ -113,7 +101,7 @@ int AssemblerLine (FileInfo* data, char* line, char* out, size_t* byte_count)
         if (reg < 0 || reg >= REGS_COUNT)
         {
             fprintf(stderr, "Unknown register!");
-            abort();
+            return -1;
         }
 
         out[(*byte_count)] = reg; 
@@ -122,12 +110,18 @@ int AssemblerLine (FileInfo* data, char* line, char* out, size_t* byte_count)
 
     if (info->arg == ARG_MARK)
     {
-        // to do markTONum
-        char mark = data->LabelsPtr[data->index];
-        data->index++;
+        int label_index = FindLabel(data, argument);
+
+        if (label_index == -1) 
+        {
+            fprintf(stderr, "Unknown label [%s]\n", argument);
+            return -1;
+        }
+
+        uint16_t address = data->LabelsPtr[label_index].address;
         
-        out[(*byte_count)] = mark;
-        *byte_count += sizeof(char);
+        memcpy(&out[*byte_count], &address, sizeof(uint16_t));
+        *byte_count += sizeof(uint16_t);
     }
     
     return 0;
@@ -144,53 +138,64 @@ void AddVersionToFile (FileInfo* data, size_t* byte_count)
     *byte_count  = byte_shift;
 }
 
-void RunLabels (FileInfo* data)
+int RunLabels (FileInfo* data)
 {
     assert(data != NULL);
     assert(data->buffer != NULL);
 
-    int index          = 0;
-    char* ptr          = data->buffer;
-    size_t byte_count  = 0;
-    
-    while (*ptr != '\0')
+    char*  ptr        = data->buffer;
+    char*  end        = data->buffer + data->real_size;
+    size_t byte_count = SIGNATURESIZE;
+
+    while (ptr < end)
     {
-        char* end_str = strchr(ptr, '\n');
+        char* line_end = strchr(ptr, '\n');
+        if (line_end == NULL)
+            line_end = end;      
+        *line_end = '\0';
 
-        if (end_str != NULL)
-            *end_str = '\0';
-        
-        if (*ptr != '\0' && *ptr != ':')
+        char* comment = strchr(ptr, ';');
+        if (comment != NULL)
+            memset(comment, '\0', (size_t)(line_end - comment));
+
+        char* label = strchr(ptr, ':');
+        if (label != NULL)
         {
-            SkipNoLabels(data, ptr, &byte_count);
+            *label = '\0';
+
+            char* name_start = ptr;
+            while (isspace(*name_start)) 
+                name_start++;
+
+            size_t len = strlen(name_start);
+
+            while (len > 0 && isspace(name_start[len - 1]))
+                name_start[--len] = '\0';
+
+            strncpy(data->LabelsPtr[data->index].name, name_start, MAX_NAME_MARK - 1);
+            data->LabelsPtr[data->index].address = byte_count;
+            data->index++;
+        
+            memset(ptr, '\0', (size_t)(line_end - ptr));
+        }
+       else if (*ptr != '\0')
+        {
+            if (SkipNoLabels(data, ptr, &byte_count) != 0)
+                return -1;
         }
 
-        if (*ptr == ':')
-        {
-            ptr++;
-            data->LabelsPtr[index] = data->true_buffer[4 + byte_count]; 
-            index++;
-        }
-        
-        if (end_str == NULL)
-            break;
-
-        ptr = end_str + 1;
-
+        ptr = line_end + 1;
     }
 
+    return 0;
 }
 
 int SkipNoLabels (FileInfo* data, char* ptr, size_t* byte_count)
 {
-    char* comment = strchr(ptr, ';');
-    if (comment != NULL)
-        *comment = '\0';
-
     char command  [MAX_LEN] = {};
     char argument [MAX_LEN] = {};
 
-    int argsscan = sscanf(ptr, "%255s %255s", command, argument);
+    int argsscan = sscanf(ptr, "%63s %63s", command, argument);
 
     if (argsscan <= 0)
         return 0;
@@ -221,10 +226,21 @@ int SkipNoLabels (FileInfo* data, char* ptr, size_t* byte_count)
         *byte_count += sizeof(double);
 
     if (info->arg == ARG_MARK)
-        *byte_count += sizeof(char);
+        *byte_count += sizeof(uint16_t);
 
     if (info->arg == ARG_REG)
         *byte_count += sizeof(char);
 
     return 0;
+}
+
+int FindLabel (FileInfo* data, const char* name)
+{
+    for (int i = 0; i < data->index; i++) 
+    {
+        if (strcmp(data->LabelsPtr[i].name, name) == 0)
+            return i;
+    }
+
+    return -1;
 }

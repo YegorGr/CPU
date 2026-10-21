@@ -10,6 +10,8 @@
 #include <assert.h>
 #include <errno.h>
 
+struct Label;
+
 #define HINT    "\x1b[93m"            //!< Sand color (yellow but light yellow)
 #define SUCCESS "\x1b[38;5;46m"       //!< Bright green color (specially for success)
 #define BOLD    "\x1b[1m"             //!< Very fat (like me)
@@ -24,7 +26,7 @@ typedef struct {
     char*   buffer;
     char*   true_buffer;
     FILE*   file;
-    char*   LabelsPtr;
+    Label*  LabelsPtr;
     int     index;
 } FileInfo;
 

@@ -1,12 +1,11 @@
 #pragma once
 
+#include <stdint.h>
+#include <stddef.h>
+
 #include "stack.h"
 #include "commands.h"
 #include "fileinfo.h"
-#include <stddef.h>
-
-#define SIGNATURE "DDX1"
-#define SIGNATURESIZE 4
 
 struct cpu {
     char*    buffer;
@@ -16,19 +15,24 @@ struct cpu {
     double   regs[REGS_COUNT];
 };
 
-void RunVm   (cpu* cpu_data);
+int  RunVm   (cpu* cpu_data);
 
 void CmdHlt  (bool* is_run);
-void CmdPush (cpu* cpu_data, ErrorsCode* err);
-void CmdAdd  (cpu* cpu_data, ErrorsCode* err);
-void CmdSub  (cpu* cpu_data, ErrorsCode* err);
-void CmdDiv  (cpu* cpu_data, ErrorsCode* err);
-void CmdMul  (cpu* cpu_data, ErrorsCode* err);
-void CmdOut  (cpu* cpu_data, ErrorsCode* err);
 
-void CmdPushReg (cpu* cpu_data, ErrorsCode* err);
-void CmdPopReg  (cpu* cpu_data, ErrorsCode* err);
+int  CmdPush (cpu* cpu_data, ErrorsCode* err);
+int  CmdAdd  (cpu* cpu_data, ErrorsCode* err);
+int  CmdSub  (cpu* cpu_data, ErrorsCode* err);
+int  CmdDiv  (cpu* cpu_data, ErrorsCode* err);
+int  CmdMul  (cpu* cpu_data, ErrorsCode* err);
+int  CmdOut  (cpu* cpu_data, ErrorsCode* err);
+
+int  CmdPushReg (cpu* cpu_data, ErrorsCode* err);
+int  CmdPopReg  (cpu* cpu_data, ErrorsCode* err);
 
 int  ReadCorrectReg (cpu* cpu_data);
-void CheckHeader    (FileInfo* data);
+int  CheckHeader    (FileInfo* data);
+
+int  ReadAddress   (cpu* cpu_data, uint16_t* pc_jmp);
+int  JumpCondition (Commands cmd, double a, double b);
+
 
