@@ -1,14 +1,17 @@
-# Read me please
+# Read me pleaseность 
+
+## Taskность 
+Суть задачи: требуется написать программу assembler, которая переводит текстовое представление кода в двоичное, а также процессор, который поддерживает определенный набор команд и работает на стекности. 
 
 ## Архитектурность проекта
 ```
 CPU/
 ├── README.md
 ├── common/
-│   ├── commands.h        //enum и тд
+│   ├── commands.h       
+│   ├── commands.cpp
 │   ├── fileinfo.h
-│   ├── fileinfo.cpp
-│   └── colors.h          // todo макросы цветов нахер перенести сюда попозже!!! заебали меня
+│   └── fileinfo.cpp
 ├── stack/
 │   ├── stack.h
 │   └── stack.cpp
@@ -22,8 +25,11 @@ CPU/
 │   └── vm.cpp
 ├── disassembler/  // попозже сделаю     
 └── examples/
-    └── program.asm       // сделать примеры потом как в txlib
+    ├── q_equation.bin
+    └── q_equation.txt 
 ```
+
+## 
 
 > [!NOTE]
 > малополезно
