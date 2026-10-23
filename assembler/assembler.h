@@ -3,9 +3,9 @@
 #include "fileinfo.h"
 #include <stdint.h>
 
-const int MAX_LEN = 64;
+const int MAX_LEN       = 64;
 const int MAX_NAME_MARK = 16;
-const int MAX_MARKS = 500;
+const int MAX_MARKS     = 500;
 
 struct Label {
     char name [MAX_NAME_MARK];

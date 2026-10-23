@@ -1,0 +1,53 @@
+IN
+POPR AX
+
+CALL calcFibonacci
+PUSHR BX
+OUT
+HLT
+
+calcFibonacci:
+
+    PUSHR AX
+    PUSH 1
+    JNE else1
+
+        PUSH 1
+        POPR BX
+        RET
+
+    else1:
+
+        PUSHR AX
+        PUSH 2
+        JNE else2
+
+            PUSH 1
+            POPR BX
+            RET
+
+        else2:
+
+            PUSHR AX
+            PUSHR AX
+            PUSHR AX
+            PUSH 1
+            SUB
+            POPR AX
+            PUSH 2
+            SUB
+
+            CALL calcFibonacci
+
+            POPR AX
+            PUSHR BX
+
+            CALL calcFibonacci
+
+            PUSHR BX
+
+            ADD
+            POPR BX
+            POPR AX
+
+            RET

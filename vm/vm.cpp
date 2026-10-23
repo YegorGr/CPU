@@ -71,13 +71,9 @@ int RunVm (cpu* cpu_data)
             break;
         
         case JMP:
-        {
-            uint16_t pc_jmp = 0;
-            ReadAddress(cpu_data, &pc_jmp);
-            cpu_data->pc = pc_jmp;
+            CmdJmp(cpu_data);
             break;
-        }
-        
+               
         case JA: case JEA: case JB: case JEB: case JE: case JNE:
         {
             uint16_t pc_jmp = 0;
@@ -121,6 +117,13 @@ int RunVm (cpu* cpu_data)
             }
             break;
         }
+
+        case CALL:
+            CmdCall(cpu_data, &err);
+            break;
+
+        case RET:
+
 
         default:
         {
@@ -328,6 +331,59 @@ int CmdPopReg (cpu* cpu_data, ErrorsCode* err)
     cpu_data->regs[reg] = value;
 
     return 0;
+}
+
+int CmdCall (cpu* cpu_data, ErrorsCode* err)
+{
+    uint16_t pc_jmp = 0;
+
+    *err = StackPush(cpu_data->cpu_return, *((double*)(cpu_data->buffer + cpu_data->pc + sizeof(uint16_t))));
+
+    if (*err != IS_OK)
+    {
+        fprintf(stderr, "Error to Push! #[&d]", *err);
+        return -1;
+    }
+
+    ReadAddress(cpu_data, &pc_jmp);
+    cpu_data->pc = pc_jmp;
+
+    if (ReadAddress != 0)
+    {
+        fprintf(stderr, "Error to read address");
+        return -1;
+    }
+
+    return 0;
+}
+
+int CmdRet (cpu* cpu_data, ErrorsCode* err)
+{
+    uint16_t address = 0;
+    address = (uint16_t) StackPop(cpu_data->cpu_return, err);
+
+    if (*err != IS_OK)
+    {
+        fprintf(stderr, "Error to Pop address #[%d]", *err);
+        return -1;
+    }
+
+    cpu_data->pc = (size_t) address;
+
+    return 0;
+}
+
+int CmdJmp (cpu* cpu_data)
+{
+    uint16_t pc_jmp = 0; 
+
+    if (ReadAddress(cpu_data, &pc_jmp) != 0)
+    {
+        fprintf(stderr, "Error to read address");
+        return -1;
+    }
+
+    cpu_data->pc = pc_jmp;
 }
 
 int ReadCorrectReg (cpu* cpu_data)

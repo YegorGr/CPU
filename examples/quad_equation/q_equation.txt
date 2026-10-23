@@ -94,7 +94,6 @@ DIV
 PUSHR AX
 DIV
 OUT
-
 HLT
 
 inf_roots:

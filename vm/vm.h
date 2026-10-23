@@ -5,13 +5,14 @@
 
 #include "stack.h"
 #include "commands.h"
-#include "fileinfo.h"
+#include "fileinfo.h"    
 
 struct cpu {
     char*    buffer;
     size_t   capacity;
     size_t   pc;
     stack_t* cpu_stack;
+    stack_t* cpu_return;
     double   regs[REGS_COUNT];
 };
 
@@ -26,6 +27,9 @@ int  CmdDiv  (cpu* cpu_data, ErrorsCode* err);
 int  CmdMul  (cpu* cpu_data, ErrorsCode* err);
 int  CmdOut  (cpu* cpu_data, ErrorsCode* err);
 int  CmdSqrt (cpu* cpu_data, ErrorsCode* err);
+int  CmdCall (cpu* cpu_data, ErrorsCode* err);
+int  CmdJmp  (cpu* cpu_data);
+
 
 
 int  CmdPushReg (cpu* cpu_data, ErrorsCode* err);
