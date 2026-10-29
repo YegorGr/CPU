@@ -21,12 +21,10 @@ const CommandInfo COMMANDS_TABLE[] = {
     {"JEB",   JEB,   ARG_MARK  },
     {"JE",    JE,    ARG_MARK  },
     {"JNE",   JNE,   ARG_MARK  },
-    {"JEA",   JEA,   ARG_MARK  },
     {"CALL",  CALL,  ARG_MARK  },
     {"RET",   RET,   ARG_NONE  },
     {"IN",    IN,    ARG_NONE  },
     {"SQRT",  SQRT,  ARG_NONE  },
-    {"RET",   RET,   ARG_NONE  },
 };
 
 const char* REGISTER_TABLE[REGS_COUNT] = {"AX", "BX", "CX", "DDX"};

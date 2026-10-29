@@ -129,13 +129,9 @@ int AssemblerLine (FileInfo* data, char* line, char* out, size_t* byte_count)
 
 void AddVersionToFile (FileInfo* data, size_t* byte_count)
 {
-    const char signature [] = {'D', 'D', 'X', '1'};
+    memcpy(data->true_buffer, SIGNATURE, SIGNATURESIZE);
 
-    memcpy(data->true_buffer, signature, sizeof(signature));
-
-    size_t byte_shift = sizeof(signature) / sizeof(signature[0]);
-
-    *byte_count  = byte_shift;
+    *byte_count  = SIGNATURESIZE;
 }
 
 int RunLabels (FileInfo* data)

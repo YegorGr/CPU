@@ -22,7 +22,7 @@ typedef struct {
     int     descriptor;
     size_t  size_array;
     size_t  size_code;
-    size_t  real_size;
+    ssize_t  real_size;
     char*   buffer;
     char*   true_buffer;
     FILE*   file;

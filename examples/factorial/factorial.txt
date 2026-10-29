@@ -1,0 +1,35 @@
+IN
+POPR AX
+PUSHR AX
+PUSH 0
+JB negative
+
+CALL fact 
+PUSHR BX
+OUT
+HLT
+
+fact:
+    PUSHR AX
+    PUSH 1
+    JA recurse
+    PUSH 1
+    POPR BX
+    RET
+
+recurse:
+    PUSHR AX
+    PUSHR AX
+    PUSH 1
+    SUB
+    POPR AX
+    CALL fact
+    PUSHR BX
+    MUL
+    POPR BX
+    RET
+
+negative:
+    PUSH -1
+    OUT
+    HLT

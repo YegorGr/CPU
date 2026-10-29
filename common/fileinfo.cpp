@@ -73,7 +73,7 @@ int OpenFile (const char* filename)
     if (descriptor == -1)
     {
         fprintf(stderr, PART_C "\n%s" RESET, strerror(errno));
-        abort();
+        return -1;
     }
 
     return descriptor;
@@ -93,8 +93,17 @@ size_t FileSize (int descriptor)
 
 char* CopyFromFile (int descriptor, size_t size_array, FileInfo* data)
 {
-    char* buffer     = (char*) (calloc(size_array, sizeof(char)));
-    data->real_size = read(descriptor, buffer, size_array);
+    char* buffer = (char*) (calloc(size_array, sizeof(char)));
+
+    ssize_t n    = read(descriptor, buffer, size_array);
+
+    if (n < 0) 
+    { 
+        free(buffer); 
+        return NULL; 
+    }
+
+    data->real_size = n;
 
     memset(&buffer[data->real_size], 0, size_array - data->real_size);
 

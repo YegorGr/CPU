@@ -142141,3 +142141,209 @@ double data[18] (0061FECC) {
   [16]: 1.#QNAN (POISON)
 ! [17]: -3.14159 (CANARY)
 }
+
+===== OKAK (STACK DUMP) =====
+
+! Number of error: [#0] -> (Stack is okey! Good job my bruh :))
+
+Capacity:      16
+Real capacity: 18
+Size:          7
+
+Left stack canary: [C0FFEE] - all is good
+Right stack canary: [DADDED] - all is good
+
+* Data elements:
+double data[18] (0061FECC) {
+! [0]: -3.14159 (CANARY)
+* [1]: 5.000000
+* [2]: 3.000000
+* [3]: 4.000000
+* [4]: 2.000000
+* [5]: 3.000000
+* [6]: 1.000000
+  [7]: 1.#QNAN (POISON)
+  [8]: 1.#QNAN (POISON)
+  [9]: 1.#QNAN (POISON)
+  [10]: 1.#QNAN (POISON)
+  [11]: 1.#QNAN (POISON)
+  [12]: 1.#QNAN (POISON)
+  [13]: 1.#QNAN (POISON)
+  [14]: 1.#QNAN (POISON)
+  [15]: 1.#QNAN (POISON)
+  [16]: 1.#QNAN (POISON)
+! [17]: -3.14159 (CANARY)
+}
+
+===== OKAK (STACK DUMP) =====
+
+! Number of error: [#0] -> (Stack is okey! Good job my bruh :))
+
+Capacity:      16
+Real capacity: 18
+Size:          7
+
+Left stack canary: [C0FFEE] - all is good
+Right stack canary: [DADDED] - all is good
+
+* Data elements:
+double data[18] (0061FECC) {
+! [0]: -3.14159 (CANARY)
+* [1]: 5.000000
+* [2]: 3.000000
+* [3]: 4.000000
+* [4]: 2.000000
+* [5]: 3.000000
+* [6]: 1.000000
+  [7]: 1.#QNAN (POISON)
+  [8]: 1.#QNAN (POISON)
+  [9]: 1.#QNAN (POISON)
+  [10]: 1.#QNAN (POISON)
+  [11]: 1.#QNAN (POISON)
+  [12]: 1.#QNAN (POISON)
+  [13]: 1.#QNAN (POISON)
+  [14]: 1.#QNAN (POISON)
+  [15]: 1.#QNAN (POISON)
+  [16]: 1.#QNAN (POISON)
+! [17]: -3.14159 (CANARY)
+}
+
+===== OKAK (STACK DUMP) =====
+
+! Number of error: [#0] -> (Stack is okey! Good job my bruh :))
+
+Capacity:      16
+Real capacity: 18
+Size:          7
+
+Left stack canary: [C0FFEE] - all is good
+Right stack canary: [DADDED] - all is good
+
+* Data elements:
+double data[18] (0061FECC) {
+! [0]: -3.14159 (CANARY)
+* [1]: 5.000000
+* [2]: 3.000000
+* [3]: 4.000000
+* [4]: 2.000000
+* [5]: 3.000000
+* [6]: 1.000000
+  [7]: 1.#QNAN (POISON)
+  [8]: 1.#QNAN (POISON)
+  [9]: 1.#QNAN (POISON)
+  [10]: 1.#QNAN (POISON)
+  [11]: 1.#QNAN (POISON)
+  [12]: 1.#QNAN (POISON)
+  [13]: 1.#QNAN (POISON)
+  [14]: 1.#QNAN (POISON)
+  [15]: 1.#QNAN (POISON)
+  [16]: 1.#QNAN (POISON)
+! [17]: -3.14159 (CANARY)
+}
+
+===== OKAK (STACK DUMP) =====
+
+! Number of error: [#0] -> (Stack is okey! Good job my bruh :))
+
+Capacity:      16
+Real capacity: 18
+Size:          7
+
+Left stack canary: [C0FFEE] - all is good
+Right stack canary: [DADDED] - all is good
+
+* Data elements:
+double data[18] (0061FECC) {
+! [0]: -3.14159 (CANARY)
+* [1]: 5.000000
+* [2]: 3.000000
+* [3]: 4.000000
+* [4]: 2.000000
+* [5]: 3.000000
+* [6]: 1.000000
+  [7]: 1.#QNAN (POISON)
+  [8]: 1.#QNAN (POISON)
+  [9]: 1.#QNAN (POISON)
+  [10]: 1.#QNAN (POISON)
+  [11]: 1.#QNAN (POISON)
+  [12]: 1.#QNAN (POISON)
+  [13]: 1.#QNAN (POISON)
+  [14]: 1.#QNAN (POISON)
+  [15]: 1.#QNAN (POISON)
+  [16]: 1.#QNAN (POISON)
+! [17]: -3.14159 (CANARY)
+}
+
+===== OKAK (STACK DUMP) =====
+
+! Number of error: [#0] -> (Stack is okey! Good job my bruh :))
+
+Capacity:      20
+Real capacity: 22
+Size:          5
+
+Left stack canary: [C0FFEE] - all is good
+Right stack canary: [DADDED] - all is good
+
+* Data elements:
+double data[22] (0061FE98) {
+! [0]: -3.14159 (CANARY)
+* [1]: 0.000000
+* [2]: 0.000000
+* [3]: 0.000000
+* [4]: 0.000000
+  [5]: 1.#QNAN (POISON)
+  [6]: 1.#QNAN (POISON)
+  [7]: 1.#QNAN (POISON)
+  [8]: 1.#QNAN (POISON)
+  [9]: 1.#QNAN (POISON)
+  [10]: 1.#QNAN (POISON)
+  [11]: 1.#QNAN (POISON)
+  [12]: 1.#QNAN (POISON)
+  [13]: 1.#QNAN (POISON)
+  [14]: 1.#QNAN (POISON)
+  [15]: 1.#QNAN (POISON)
+  [16]: 1.#QNAN (POISON)
+  [17]: 1.#QNAN (POISON)
+  [18]: 1.#QNAN (POISON)
+  [19]: 1.#QNAN (POISON)
+  [20]: 1.#QNAN (POISON)
+! [21]: -3.14159 (CANARY)
+}
+
+===== OKAK (STACK DUMP) =====
+
+! Number of error: [#8] -> (Attempt to remove an element from an empty stack)
+
+Capacity:      20
+Real capacity: 22
+Size:          1
+
+Left stack canary: [C0FFEE] - all is good
+Right stack canary: [DADDED] - all is good
+
+* Data elements:
+double data[22] (0061FECC) {
+! [0]: -3.14159 (CANARY)
+  [1]: 1.#QNAN (POISON)
+  [2]: 1.#QNAN (POISON)
+  [3]: 1.#QNAN (POISON)
+  [4]: 1.#QNAN (POISON)
+  [5]: 1.#QNAN (POISON)
+  [6]: 1.#QNAN (POISON)
+  [7]: 1.#QNAN (POISON)
+  [8]: 1.#QNAN (POISON)
+  [9]: 1.#QNAN (POISON)
+  [10]: 1.#QNAN (POISON)
+  [11]: 1.#QNAN (POISON)
+  [12]: 1.#QNAN (POISON)
+  [13]: 1.#QNAN (POISON)
+  [14]: 1.#QNAN (POISON)
+  [15]: 1.#QNAN (POISON)
+  [16]: 1.#QNAN (POISON)
+  [17]: 1.#QNAN (POISON)
+  [18]: 1.#QNAN (POISON)
+  [19]: 1.#QNAN (POISON)
+  [20]: 1.#QNAN (POISON)
+! [21]: -3.14159 (CANARY)
+}

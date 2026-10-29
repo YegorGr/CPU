@@ -9,8 +9,11 @@ int main (int argc, const char* argv[])
 {
     FileInfo data = GetFileInfo(argc, argv);  
 
-    CheckHeader(&data);
-    
+    if (CheckHeader(&data) != 0) 
+    {
+         free(data.buffer); 
+         return -1; 
+    }    
     stack_t stk1 = {};
     stack_t stk2 = {};
     StackInit(&stk1, 40);

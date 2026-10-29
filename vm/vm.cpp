@@ -28,6 +28,7 @@ int RunVm (cpu* cpu_data)
             return -1;
         }
 
+        int status = 0;
         switch (command)
         {
         case HLT:
@@ -35,43 +36,43 @@ int RunVm (cpu* cpu_data)
             break;
         
         case PUSH:
-            CmdPush(cpu_data, &err);
+            status = CmdPush(cpu_data, &err);
             break;
         
         case ADD:
-            CmdAdd(cpu_data, &err);
+            status = CmdAdd(cpu_data, &err);
             break;
 
         case SUB:
-            CmdSub(cpu_data, &err);
+            status = CmdSub(cpu_data, &err);
             break;  
         
         case DIV:
-            CmdDiv(cpu_data, &err);
+            status = CmdDiv(cpu_data, &err);
             break;   
 
         case MUL:
-            CmdMul(cpu_data, &err);
+            status = CmdMul(cpu_data, &err);
             break;
 
         case SQRT:
-            CmdSqrt(cpu_data, &err);
+            status = CmdSqrt(cpu_data, &err);
             break;
 
         case OUT:
-            CmdOut(cpu_data, &err);
+            status = CmdOut(cpu_data, &err);
             break;
 
         case PUSHR:
-            CmdPushReg(cpu_data, &err);
+            status = CmdPushReg(cpu_data, &err);
             break;
 
         case POPR:
-            CmdPopReg(cpu_data, &err);
+            status = CmdPopReg(cpu_data, &err);
             break;
         
         case JMP:
-            CmdJmp(cpu_data);
+            status = CmdJmp(cpu_data);
             break;
                
         case JA: case JEA: case JB: case JEB: case JE: case JNE:
@@ -119,21 +120,23 @@ int RunVm (cpu* cpu_data)
         }
 
         case CALL:
-            CmdCall(cpu_data, &err);
+            status = CmdCall(cpu_data, &err);
             break;
 
         case RET:
-
+            status = CmdRet(cpu_data, &err);
+            break;
 
         default:
         {
             fprintf(stderr, "Incorrect command!");
             StackDump(cpu_data->cpu_stack, err);
+            StackDump(cpu_data->cpu_return, err);
             abort();
         }
         }
-
-        if (is_run == false || err != IS_OK)
+    
+        if (status != 0 || err != IS_OK)
             return -1;
 
     }
@@ -335,25 +338,18 @@ int CmdPopReg (cpu* cpu_data, ErrorsCode* err)
 
 int CmdCall (cpu* cpu_data, ErrorsCode* err)
 {
-    uint16_t pc_jmp = 0;
+    uint16_t target = 0;
+    if (ReadAddress(cpu_data, &target) != 0)
+        return -1;
 
-    *err = StackPush(cpu_data->cpu_return, *((double*)(cpu_data->buffer + cpu_data->pc + sizeof(uint16_t))));
-
+    *err = StackPush(cpu_data->cpu_return, (double) cpu_data->pc);
     if (*err != IS_OK)
     {
-        fprintf(stderr, "Error to Push! #[&d]", *err);
+        StackDump(cpu_data->cpu_return, *err);
         return -1;
     }
 
-    ReadAddress(cpu_data, &pc_jmp);
-    cpu_data->pc = pc_jmp;
-
-    if (ReadAddress != 0)
-    {
-        fprintf(stderr, "Error to read address");
-        return -1;
-    }
-
+    cpu_data->pc = target;
     return 0;
 }
 
@@ -364,7 +360,7 @@ int CmdRet (cpu* cpu_data, ErrorsCode* err)
 
     if (*err != IS_OK)
     {
-        fprintf(stderr, "Error to Pop address #[%d]", *err);
+        fprintf(stderr, "Error to Pop address #[%d]\n", *err);
         return -1;
     }
 
@@ -379,7 +375,7 @@ int CmdJmp (cpu* cpu_data)
 
     if (ReadAddress(cpu_data, &pc_jmp) != 0)
     {
-        fprintf(stderr, "Error to read address");
+        fprintf(stderr, "Error to read address\n");
         return -1;
     }
 
@@ -390,7 +386,7 @@ int ReadCorrectReg (cpu* cpu_data)
 {
     if (cpu_data->pc + 1 > cpu_data->capacity)
     {
-        fprintf(stderr, "Array out!");
+        fprintf(stderr, "Array out!\n");
         return -1;
     }
 
@@ -416,7 +412,7 @@ int CheckHeader (FileInfo* data)
 
     if (memcmp(data->buffer, SIGNATURE, SIGNATURESIZE) != 0)
     {
-        fprintf(stderr, "Uncorrect signature");
+        fprintf(stderr, "Uncorrect signature!\n");
         return -1;
     }
 }

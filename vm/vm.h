@@ -28,6 +28,7 @@ int  CmdMul  (cpu* cpu_data, ErrorsCode* err);
 int  CmdOut  (cpu* cpu_data, ErrorsCode* err);
 int  CmdSqrt (cpu* cpu_data, ErrorsCode* err);
 int  CmdCall (cpu* cpu_data, ErrorsCode* err);
+int  CmdRet  (cpu* cpu_data, ErrorsCode* err);
 int  CmdJmp  (cpu* cpu_data);
 
 
