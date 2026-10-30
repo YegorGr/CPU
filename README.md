@@ -48,7 +48,7 @@ g++ -Icommon -Istack vm/main.cpp vm/vm.cpp stack/stack.cpp common/fileinfo.cpp c
 
 > Для ассемблера:
 ```text
-g++ -Icommon assembler/main.cpp assembler.cpp common/fileinfo.cpp common/commands.cpp -o ass.exe
+g++ -Icommon assembler/main.cpp assembler/assembler.cpp common/fileinfo.cpp common/commands.cpp -o ass.exe
 ```
 
 > [!TIP]
