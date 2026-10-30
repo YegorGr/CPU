@@ -9,6 +9,14 @@ IN
 POPR CX
 
 PUSHR AX
+PUSHR BX
+ADD
+PUSHR CX
+ADD
+PUSH 0
+JE inf_roots
+
+PUSHR AX
 PUSH 0
 JE linear ; if this is a linear equation
 
@@ -42,61 +50,100 @@ PUSH 0
 JA two_roots
 
 linear:
-PUSHR CX
-PUSH 0
-JE inf_roots
-PUSHR CX
-PUSH -1
-MUL
-PUSHR BX
-DIV
-OUT 
-HLT
+    PUSHR BX
+    PUSH 0
+    JE no_roots
+    PUSHR CX
+    PUSH -1
+    MUL
+    PUSHR BX
+    DIV
+    OUT
+    HLT
 
-no_roots:
-PUSH 0
-OUT
-HLT
+b_zero:
+    PUSHR CX
+    PUSH 0
+    JE inf_roots
+    PUSHR CX
+    PUSH 0
+    JNE no_roots
 
 one_root:
-PUSHR BX
-PUSH -1
-MUL
-PUSH 2
-DIV
-PUSHR AX
-DIV
-OUT
-HLT
+    PUSHR BX
+    PUSHR CX
+    ADD
+    PUSH 0
+    JE ax_notzer_two
+    PUSHR BX
+    PUSHR AX
+    MUL
+    PUSH 0
+    JE no_roots
+    PUSHR BX
+    PUSH -1
+    MUL
+    PUSH 2
+    DIV
+    PUSHR AX
+    DIV
+    OUT
+    HLT
 
 two_roots:
-PUSHR BX
-PUSH -1
-MUL
-PUSHR DDX
-SQRT
-PUSH -1
-MUL
-SUB
-PUSH 2
-DIV
-PUSHR AX
-DIV
-OUT
-
-PUSHR BX
-PUSH -1
-MUL
-PUSHR DDX
-SUB
-PUSH 2
-DIV
-PUSHR AX
-DIV
-OUT
-HLT
+    PUSHR BX
+    PUSH 0
+    JE b_zero_two
+    PUSHR BX
+    PUSH -1
+    MUL
+    PUSHR DDX
+    SQRT
+    PUSH -1
+    MUL
+    SUB
+    PUSH 2
+    DIV
+    PUSHR AX
+    DIV
+    OUT
+    PUSHR BX
+    PUSH -1
+    MUL
+    PUSHR DDX
+    SUB
+    PUSH 2
+    DIV
+    PUSHR AX
+    DIV
+    OUT
+    HLT
 
 inf_roots:
-PUSH 666
-OUT
-HLT
+    PUSH 5252
+    OUT
+    HLT
+
+b_zero_two:
+    PUSHR CX
+    PUSH -1
+    MUL
+    SQRT 
+    POPR AX
+    PUSHR AX
+    PUSHR AX
+    PUSH -1
+    MUL
+    OUT
+    OUT
+    HLT
+
+no_roots:
+    PUSH 67
+    OUT
+    HLT
+
+ax_notzer_two:
+    PUSH 0
+    OUT
+    HLT
